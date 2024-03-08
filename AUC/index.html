@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agile Unlearning Canvas</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<div id="editModal" class="modal" style="display:none">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <input type="text" id="editItemText" placeholder="Edit item">
+        <button id="saveChangesBtn">Save Changes</button>
+        <button id="deleteItemBtn">Delete Item</button>
+    </div>
+</div>
+    <div class="section">
+        <h1 class="section__header">Agile Unlearning Canvas</h1>
+        <div class="section__content">
+            <div class="section__content-1">
+                <div class="left__container">
+                    <p class="container__text">Feedback</p>
+                    <div class="image__container">
+                        <img src="./Icons/Feedback.png" alt="">
+                    </div>
+                </div>
+                <div class="gap__container">
+                    <div class="gap__container-image gap__container-image-1">
+                        <img src="./Icons/Doodle-Arrow-PNG-1.png" alt="">
+                    </div>
+                </div>
+                <div class="main__panel">
+                    <div class="main__panel__containers container-1">
+                        <p class="container__text">Brainstorming</p>
+                        <div class="list-container" id="listContainer1"></div>
+                        <ul class="list-inline" id="brainstormingList"></ul>
+                        <input type="text" id="brainstorminglistInput" placeholder="Neues Element hinzufügen">
+                        <button id="brainstormingaddToListBtn">Hinzufügen</button>
+                        <div class="image__container">
+                            <img src="./Icons/Brainstorming.png" alt="">
+                        </div>
+                    </div>
+
+                    <div class="main__panel__containers container-5">
+                        <p class="container__text">Knowledge Impediments</p>
+                        <ul class="list-inline" id="knowledgeList"></ul>
+                        <input type="text" id="knowledgelistInput" placeholder="Neues Element hinzufügen">
+                        <button id="knowledgeToListBtn">Hinzufügen</button>
+
+                        <div class="image__container">
+                            <img src="./Icons/Knowledge Impediments.png" alt="">
+                        </div>
+                    </div>
+                    <div class="main__panel__containers container-2">
+                        <p class="container__text">Reflexion</p>
+                        <div class="image__container">
+                            <img src="./Icons/Reflexion.png" alt="">
+                        </div>
+                    </div>
+                    <div class="main__panel__containers container-4">
+                        <p class="container__text">Neue Perspektiven</p>
+                        <div class="image__container">
+                            <img src="./Icons/Neue Perspektiven.png" alt="">
+                        </div>
+                    </div>
+                    <div class="main__panel__containers container-7">
+                        <p class="container__text">Definition of Unlearned</p>
+                        <div class="image__container">
+                            <img src="./Icons/Definition of Unlearned.png" alt="">
+                        </div>
+                    </div>
+                    <div class="main__panel__containers container-3">
+                        <p class="container__text">Vorbereitung</p>
+                        <div class="image__container">
+                            <img src="./Icons/Vorbereitung.png" alt="">
+                        </div>
+                    </div>
+                    <div class="main__panel__containers container-6">
+                        <p class="container__text">Action Items</p>
+                        <div class="image__container">
+                            <img src="./Icons/Action Items.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="gap__container">
+                <div class="gap__container-image gap__container-image-2">
+                    <img src="./Icons/Doodle-Arrow-PNG-1.png" alt="">
+                </div>
+                <div class="gap__container-image gap__container-image-3">
+                    <img src="./Icons/Doodle-Arrow-PNG-1.png" alt="">
+                </div>
+            </div>
+            <div class="bottom__container">
+                <p class="container__text">Measuring Unlearning</p>
+                <div class="image__container">
+                    <img src="./Icons/Measuring Unlearning.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
