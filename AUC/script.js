@@ -52,7 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (e.key === 'Enter') {
                             const newText = inputField.value.trim();
                             if (newText !== '') {
-                                target.textContent = newText;
+                                const newSpan = document.createElement('span');
+                                newSpan.textContent = newText;
+                                item.replaceChild(newSpan, inputField);
                             } else {
                                 item.parentNode.removeChild(item); // Remove the whole list item
                             }
@@ -71,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+
         listInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addToListBtn.click();
@@ -86,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
             addEditDeleteListener(item);
         });
     }
-    const infoIcons = document.querySelectorAll('.infoBtn');
     // Function to create the modal popup
     function createInfoPopup(container, infoText) {
         const modal = document.createElement('div');
@@ -129,20 +131,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Event listener for clicking on the info icons
-    infoIcons.forEach(function(icon) {
-        icon.addEventListener('click', function() {
-            const container = icon.closest('.main__panel__containers');
-            const infoText = icon.dataset.info;
-            const modal = container.querySelector('.modal');
-            if (!modal) {
-                const createdModal = createInfoPopup(container, infoText);
-                showInfoPopup(container);
-            } else {
-                showInfoPopup(container);
+    const containers = document.querySelectorAll('.left__container, .main__panel__containers, .bottom__container');
+
+    containers.forEach(function(container) {
+        container.addEventListener('click', function(event) {
+            const icon = event.target.closest('.infoBtn');
+            if (icon) {
+                const container = icon.closest('.left__container, .main__panel__containers, .bottom__container');
+                const infoText = icon.dataset.info;
+                const modal = container.querySelector('.modal');
+                if (!modal) {
+                    const createdModal = createInfoPopup(container, infoText);
+                    showInfoPopup(container);
+                } else {
+                    showInfoPopup(container);
+                }
             }
         });
     });
-
 
     // Call the function for the new list
     createList('feedbackListInput', 'feedbackListBtn', 'feedbackList');

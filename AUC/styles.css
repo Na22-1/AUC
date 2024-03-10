@@ -36,6 +36,18 @@
     cursor: pointer;
 }
 
+.button {
+    background: none; /* Hintergrund entfernen */
+    border: none; /* Rand entfernen */
+    padding: 0; /* Innenabstand entfernen */
+    /* Fügen Sie hier weitere Anpassungen hinzu, je nach Bedarf */
+}
+.button {
+    visibility: hidden; /* Symbol ausblenden */
+    width: 0; /* Breite auf 0 setzen */
+}
+
+
 .close:hover,
 .close:focus {
     color: #000;
@@ -197,8 +209,8 @@
 
 .image__container_numbers {
     position: absolute;
-    top: 0px; /* Platzierung oben */
-    left: 0px; /* Platzierung links */
+    top: 0; /* Platzierung oben */
+    left: 0; /* Platzierung links */
 }
 
 
