@@ -4,20 +4,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const listInput = document.getElementById(listInputId);
         const addToListBtn = document.getElementById(addBtnId);
         const list = document.getElementById(listId);
-        const editModal = document.getElementById('editModal');
-        const editItemText = document.getElementById('editItemText');
-        const saveChangesBtn = document.getElementById('saveChangesBtn');
-        const deleteItemBtn = document.getElementById('deleteItemBtn');
 
         addToListBtn.addEventListener('click', function() {
             const newItemText = listInput.value.trim();
             if (newItemText !== '') {
                 const newItem = document.createElement('li');
-                newItem.innerHTML = `<span>${newItemText}</span>`;
+                const span = document.createElement('span');
+                span.textContent = newItemText;
+                newItem.appendChild(span);
                 list.appendChild(newItem);
                 listInput.value = '';
                 if (canVote) {
-                    newItem.innerHTML += '<button class="voteBtn">+1</button><span class="voteCount">0</span>';
+                    const voteBtn = document.createElement('button');
+                    voteBtn.className = 'voteBtn';
+                    voteBtn.textContent = '+1';
+                    newItem.appendChild(voteBtn);
+                    const voteCount = document.createElement('span');
+                    voteCount.className = 'voteCount';
+                    voteCount.textContent = '0';
+                    newItem.appendChild(voteCount);
                     addVoteListener(newItem);
                 }
                 addEditDeleteListener(newItem);
@@ -28,7 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const voteBtn = item.querySelector('.voteBtn');
             const voteCount = item.querySelector('.voteCount');
 
-            voteBtn.addEventListener('click', function() {
+            voteBtn.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevents the event from bubbling up to the parent span
                 let currentCount = parseInt(voteCount.textContent);
                 voteCount.textContent = currentCount + 1;
             });
@@ -38,19 +44,29 @@ document.addEventListener('DOMContentLoaded', function() {
             item.addEventListener('click', function(event) {
                 const target = event.target;
                 if (target.tagName === 'SPAN') {
-                    const spanText = item.querySelector('span').textContent;
-                    editItemText.value = spanText;
-                    editModal.style.display = 'block';
-
-                    saveChangesBtn.onclick = function() {
-                        item.querySelector('span').textContent = editItemText.value.trim();
-                        editModal.style.display = 'none';
-                    }
-
-                    deleteItemBtn.onclick = function() {
-                        item.remove();
-                        editModal.style.display = 'none';
-                    }
+                    const spanText = target.textContent;
+                    const inputField = document.createElement('input');
+                    inputField.type = 'text';
+                    inputField.value = spanText;
+                    inputField.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter') {
+                            const newText = inputField.value.trim();
+                            if (newText !== '') {
+                                target.textContent = newText;
+                            } else {
+                                item.parentNode.removeChild(item); // Remove the whole list item
+                            }
+                            item.removeChild(inputField);
+                            inputField.blur(); // Unfocus the input field
+                        } else if (e.key === 'Escape') {
+                            item.removeChild(inputField);
+                        }
+                    });
+                    item.replaceChild(inputField, target);
+                    inputField.focus();
+                } else if (target.tagName === 'BUTTON') {
+                    // Don't delete text when clicking vote button
+                    event.stopPropagation();
                 }
             });
         }
@@ -58,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
         listInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addToListBtn.click();
+                if (listInput.value.trim() === '') {
+                    listInput.blur();
+                }
             }
         });
 
@@ -67,8 +86,72 @@ document.addEventListener('DOMContentLoaded', function() {
             addEditDeleteListener(item);
         });
     }
+    const infoIcons = document.querySelectorAll('.infoBtn');
+    // Function to create the modal popup
+    function createInfoPopup(container, infoText) {
+        const modal = document.createElement('div');
+        modal.classList.add('modal');
+        modal.style.display = 'none';
+
+        const modalContent = document.createElement('div');
+        modalContent.classList.add('modal-content');
+
+        const closeBtn = document.createElement('span');
+        closeBtn.classList.add('close');
+        closeBtn.innerHTML = '&times;';
+
+        const infoPara = document.createElement('p');
+        infoPara.textContent = infoText;
+
+        modalContent.appendChild(closeBtn);
+        modalContent.appendChild(infoPara);
+        modal.appendChild(modalContent);
+        container.appendChild(modal);
+
+        return modal;
+    }
+
+    // Function to show the modal popup
+    function showInfoPopup(container) {
+        const modal = container.querySelector('.modal');
+        modal.style.display = 'block';
+
+        const closeBtn = modal.querySelector('.close');
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Event listener for clicking on the info icons
+    infoIcons.forEach(function(icon) {
+        icon.addEventListener('click', function() {
+            const container = icon.closest('.main__panel__containers');
+            const infoText = icon.dataset.info;
+            const modal = container.querySelector('.modal');
+            if (!modal) {
+                const createdModal = createInfoPopup(container, infoText);
+                showInfoPopup(container);
+            } else {
+                showInfoPopup(container);
+            }
+        });
+    });
+
 
     // Call the function for the new list
+    createList('feedbackListInput', 'feedbackListBtn', 'feedbackList');
     createList('brainstorminglistInput', 'brainstormingaddToListBtn', 'brainstormingList', true);
     createList('knowledgelistInput', 'knowledgeToListBtn', 'knowledgeList');
+    createList('reflexionListInput', 'reflexionListBtn', 'reflexionList');
+    createList('neuePerspektivenListInput', 'neuePerspektivenListBtn', 'neuePerspektivenList');
+    createList('definitionOfUnlearnedListInput', 'definitionOfUnlearnedListBtn', 'definitionOfUnlearnedList');
+    createList('vorbereitungListInput', 'vorbereitungListBtn', 'vorbereitungList');
+    createList('actionItemsListInput', 'actionItemsListBtn', 'actionItemsList');
+    createList('measuringUnlearningListInput', 'measuringUnlearningListBtn', 'measuringUnlearningItemsList');
 });
