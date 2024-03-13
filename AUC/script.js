@@ -156,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createList('knowledgelistInput', 'knowledgeToListBtn', 'knowledgeList');
     createList('reflexionListInput', 'reflexionListBtn', 'reflexionList');
     createList('neuePerspektivenListInput', 'neuePerspektivenListBtn', 'neuePerspektivenList');
+    createList('VisionList', 'VisionListInput', 'VisionListBtn');
     createList('definitionOfUnlearnedListInput', 'definitionOfUnlearnedListBtn', 'definitionOfUnlearnedList');
     createList('vorbereitungListInput', 'vorbereitungListBtn', 'vorbereitungList');
     createList('actionItemsListInput', 'actionItemsListBtn', 'actionItemsList');
